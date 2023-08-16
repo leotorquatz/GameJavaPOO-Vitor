@@ -3,6 +3,9 @@ package br.senai.sp.jandira.game.model;
 import java.util.Scanner;
 
 public class Register {
+
+    int validaPrint = 0;
+
     /** Instancia Scanner */
     Scanner teclado = new Scanner(System.in);
 
@@ -12,10 +15,19 @@ public class Register {
     /** Instancia Enemy*/
     Enemy enemy = new Enemy();
 
+    /**
+    * Instancia Output
+    * */
+
+    Output output = new Output();
+
     public void BothRegister(){
 
+        validaPrint = 1;
         PlayerRegister();
         EnemyRegister();
+        output.PrintPlayer(player);
+        output.PrintEnemy(enemy);
 
     }
 
@@ -26,14 +38,25 @@ public class Register {
         System.out.println("Escolha sua skin (red - blue - purple) : ");
         player.skin = teclado.nextLine();
         System.out.println("----- Player Cadastrado com Sucesso ! -----");
+
+        if (validaPrint != 1) {
+            // Printa as Informações cadastradas
+            output.PrintPlayer(player);
+        }
+
     }
     public void EnemyRegister(){
         System.out.println("------------- Cadastro Enemy -------------");
         System.out.println("Qual é o seu nome: ");
-        player.nome = teclado.nextLine();
+        enemy.nome = teclado.nextLine();
         System.out.println("Escolha sua skin (red - blue - purple) : ");
-        player.skin = teclado.nextLine();
+        enemy.skin = teclado.nextLine();
         System.out.println("----- Enemy Cadastrado com Sucesso ! -----");
+
+        if (validaPrint != 1) {
+            // Printa as Informações cadastradas
+            output.PrintEnemy(enemy);
+        }
             }
     public void Decision(){
 
@@ -44,22 +67,16 @@ public class Register {
         decision = teclado.nextLine();
 
         switch (decision) {
+            case "Player" -> PlayerRegister();
+            case "Enemy" -> EnemyRegister();
+            case "Ambos" -> BothRegister();
+            default -> System.out.println(" Digite uma Opção Válida! ");
+        }
+        System.out.println("Deseja cadastrar novamente [ 1 - SIM | 2 -  NÃO]: ");
+        int continuar = teclado.nextInt();
 
-            case "Player":
-                PlayerRegister();
-                break;
-
-            case "Enemy":
-                EnemyRegister();
-                break;
-
-            case "Ambos":
-                BothRegister();
-                break;
-
-            default:
-
-                System.out.println(" Digite uma Opção Válida! ");
+        if (continuar==1){
+            Decision();
         }
     }
 }
